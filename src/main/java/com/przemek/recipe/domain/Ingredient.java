@@ -2,6 +2,7 @@ package com.przemek.recipe.domain;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;

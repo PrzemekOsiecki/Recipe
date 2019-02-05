@@ -1,6 +1,7 @@
 package com.przemek.recipe.domain;
 
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -8,28 +9,29 @@ import java.util.Set;
 
 @Data
 @Entity
+@ToString
 public class Recipe {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     private String description;
-    private int prepTime;
-    private int cookTime;
-    private int servings;
+    private Integer prepTime;
+    private Integer cookTime;
+    private Integer servings;
     private String url;
 
     @Lob
     private String directions;
 
     @Lob
-    private byte[] image;
+    private Byte[] image;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Notes notes;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe", fetch = FetchType.EAGER)
     private Set<Ingredient> ingredients = new HashSet<>();
 
     @ManyToMany

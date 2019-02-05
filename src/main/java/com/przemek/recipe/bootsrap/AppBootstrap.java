@@ -31,8 +31,8 @@ public class AppBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-//        recipeRepository.saveAll(getAllRecipes());
-//        log.debug("creating recipes");
+        recipeRepository.saveAll(getAllRecipes());
+        log.debug("creating recipes");
     }
 
     @Transactional
