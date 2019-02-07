@@ -40,11 +40,20 @@ public class RecipeService {
     }
 
     @Transactional
+    public RecipeCommandObject findRecipeCommandObjectById(long id) {
+        return recipeToRecipeCommandObjectConverter.convert(findRecipeById(id));
+    }
+
+    @Transactional
     public RecipeCommandObject saveRecipe(RecipeCommandObject recipeCommandObject) {
         Recipe detachedRecipe = recipeCommandObjectToRecipeConverter.convert(recipeCommandObject);
 
         Recipe savedRecipe = recipeRepository.save(detachedRecipe);
         log.debug("saved Recipe with id "+ savedRecipe.getId());
         return recipeToRecipeCommandObjectConverter.convert(savedRecipe);
+    }
+
+    public void removeRecipe(Long recipeId) {
+        recipeRepository.deleteById(recipeId);
     }
 }

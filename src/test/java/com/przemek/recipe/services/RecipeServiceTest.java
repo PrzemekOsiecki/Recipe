@@ -74,7 +74,7 @@ public class RecipeServiceTest {
     }
 
     @Test
-    public void test() {
+    public void shouldSaveRecipe() {
         RecipeCommandObject recipeCommandObject = new RecipeCommandObject();
         recipeCommandObject.setId(1L);
 
@@ -87,5 +87,13 @@ public class RecipeServiceTest {
         assertNotNull(actualRecipeCommandObject);
         assertEquals(recipeCommandObject, actualRecipeCommandObject);
         assertEquals(recipeCommandObject.getId(), actualRecipeCommandObject.getId());
+    }
+
+    @Test
+    public void shouldRemoveRecipe() {
+        //when
+        uut.removeRecipe(1L);
+        //then
+        verify(recipeRepositoryMock, times(1)).deleteById(1L);
     }
 }
