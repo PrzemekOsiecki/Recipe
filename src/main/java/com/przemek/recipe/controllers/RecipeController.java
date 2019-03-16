@@ -4,10 +4,7 @@ import com.przemek.recipe.commands.RecipeCommandObject;
 import com.przemek.recipe.services.RecipeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class RecipeController {
@@ -40,5 +37,11 @@ public class RecipeController {
     String deleteRecipe(@PathVariable long recipeId) {
         recipeService.removeRecipe(recipeId);
         return "redirect:/";
+    }
+
+    @GetMapping("recipe/{id}/update")
+    public String updateRecipe(@PathVariable String id, Model model){
+        model.addAttribute("recipe", recipeService.findRecipeCommandObjectById(Long.valueOf(id)));
+        return  "recipe/recipeform";
     }
 }

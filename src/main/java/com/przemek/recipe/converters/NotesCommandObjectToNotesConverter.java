@@ -15,7 +15,7 @@ public class NotesCommandObjectToNotesConverter implements Converter<NotesComman
     @Override
     public Notes convert(NotesCommandObject notesCommandObject) {
         final Notes notes = new Notes();
-        notes.setId(notesCommandObject.getId());
+//        notes.setId(notesCommandObject.getId());
         notes.setRecipeNotes(notesCommandObject.getRecipeNotes());
         return notes;
     }

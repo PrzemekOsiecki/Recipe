@@ -15,11 +15,11 @@
             crossorigin="anonymous" th:src="@{/webjars/bootstrap/4.2.1/js/bootstrap.min.js}"></script>
 </head>
 <body>
-<!--/*@thymesVar id="recipe" type="guru.springframework.domain.Recipe"*/-->
+<!--/*@thymesVar id="recipe" type="com.przemek.recipe.domain.RecipeCommandObject"*/-->
 <div class="container-fluid" style="margin-top: 20px">
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
-            <form th:object="${recipe}" th:action="@{/recipe/}" method="post">
+            <form th:object="${recipe}" th:action="@{/recipe}" method="post">
 
                 <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
                     <p>Please Correct Errors Below</p>
@@ -87,16 +87,11 @@
                                 <div class="col-md-3 form-group">
                                     <label>Difficulty:</label>
                                     <select class="form-control" th:field="*{difficulty}">
-                                        <option th:each="difficultyValue : ${T(guru.springframework.domain.Difficulty).values()}"
+                                        <option th:each="difficultyValue : ${T(com.przemek.recipe.domain.Difficulty).values()}"
                                                 th:value="${difficultyValue.name()}"
                                                 th:text="${difficultyValue.name()}"
-                                        >val
+                                        >
                                         </option>
-                                    </select>
-                                    <select class="form-control" th:remove="all">
-                                        <option>Easy</option>
-                                        <option>Medium</option>
-                                        <option>Hard</option>
                                     </select>
                                 </div>
                             </div>
@@ -111,10 +106,10 @@
                                         </ul>
                                     </span>
                                 </div>
-                                <div class="col-md-3 form-group">
-                                    <label>Source:</label>
-                                    <input type="text" class="form-control" th:field="*{source}"/>
-                                </div>
+                                <!--<div class="col-md-3 form-group">-->
+                                    <!--<label>Source:</label>-->
+                                    <!--<input type="text" class="form-control" th:field="*{source}"/>-->
+                                <!--</div>-->
                                 <div class="col-md-3 form-group" th:class="${#fields.hasErrors('url')}
                                 ? 'col-md-3 form-group has-error' : 'col-md-3 form-group'">
                                     <label>URL:</label>
@@ -144,9 +139,6 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <ul th:if="${not #lists.isEmpty(recipe.ingredients)}">
-                                        <li th:remove="all">1 Cup of milk</li>
-                                        <li th:remove="all">1 Teaspoon of chocolate</li>
-                                        <li th:remove="all">asdf</li>
                                         <li th:each="ingredient : ${recipe.ingredients}"
                                             th:text="${(ingredient.getAmount() +
                                         ' ' + ingredient.unitOfMeasure.getDescription() +
