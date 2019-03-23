@@ -1,11 +1,16 @@
 package com.przemek.recipe.controllers;
 
 import com.przemek.recipe.commands.RecipeCommandObject;
+import com.przemek.recipe.exceptions.NotFoundException;
 import com.przemek.recipe.services.RecipeService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
+@Slf4j
 @Controller
 public class RecipeController {
 
@@ -43,5 +48,14 @@ public class RecipeController {
     public String updateRecipe(@PathVariable String id, Model model){
         model.addAttribute("recipe", recipeService.findRecipeCommandObjectById(Long.valueOf(id)));
         return  "recipe/recipeform";
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NotFoundException.class)
+    ModelAndView notFoundHandler() {
+        log.error("Recipe not found");
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("404error");
+        return modelAndView;
     }
 }

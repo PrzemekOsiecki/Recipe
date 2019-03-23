@@ -2,6 +2,7 @@ package com.przemek.recipe.controllers;
 
 import com.przemek.recipe.commands.RecipeCommandObject;
 import com.przemek.recipe.domain.Recipe;
+import com.przemek.recipe.exceptions.NotFoundException;
 import com.przemek.recipe.services.RecipeService;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,6 +11,9 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -38,7 +42,9 @@ public class RecipeControllerTest {
         MockitoAnnotations.initMocks(this);
         uut = new RecipeController(recipeServiceMock);
 
-        mockMvc = MockMvcBuilders.standaloneSetup(uut).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(uut)
+                .setControllerAdvice(ControllerExceptionHandler.class)
+                .build();
     }
 
     @Test
@@ -48,6 +54,15 @@ public class RecipeControllerTest {
         mockMvc.perform(get("/recipe/1/show"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("recipe/recipe"));
+    }
+
+    @Test
+    public void shouldReturn404Error() throws Exception {
+        when(recipeServiceMock.findRecipeById(anyLong())).thenThrow(new NotFoundException());
+
+        mockMvc.perform(get("/recipe/1/show"))
+                .andExpect(status().isNotFound())
+                .andExpect(view().name("404error"));
     }
 
     @Test

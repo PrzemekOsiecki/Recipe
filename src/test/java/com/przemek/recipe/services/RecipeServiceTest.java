@@ -4,6 +4,7 @@ import com.przemek.recipe.commands.RecipeCommandObject;
 import com.przemek.recipe.converters.RecipeCommandObjectToRecipeConverter;
 import com.przemek.recipe.converters.RecipeToRecipeCommandObjectConverter;
 import com.przemek.recipe.domain.Recipe;
+import com.przemek.recipe.exceptions.NotFoundException;
 import com.przemek.recipe.repositories.RecipeRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -72,6 +73,16 @@ public class RecipeServiceTest {
         assertEquals(recipe, actualRecipe);
         verify(recipeRepositoryMock, times(1)).findById(1L);
     }
+
+    @Test(expected = NotFoundException.class)
+    public void shouldThrowNoFoundExceptionIfRecipeIsNotExist() {
+        Optional<Recipe> nullRecipe = Optional.empty();
+
+        when(recipeRepositoryMock.findById(anyLong())).thenReturn(nullRecipe);
+
+        uut.findRecipeById(1L);
+    }
+
 
     @Test
     public void shouldSaveRecipe() {

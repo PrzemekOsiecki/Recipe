@@ -4,6 +4,7 @@ import com.przemek.recipe.commands.RecipeCommandObject;
 import com.przemek.recipe.converters.RecipeCommandObjectToRecipeConverter;
 import com.przemek.recipe.converters.RecipeToRecipeCommandObjectConverter;
 import com.przemek.recipe.domain.Recipe;
+import com.przemek.recipe.exceptions.NotFoundException;
 import com.przemek.recipe.repositories.RecipeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -36,7 +37,7 @@ public class RecipeService {
     }
 
     public Recipe findRecipeById(long id) {
-        return recipeRepository.findById(id).orElseThrow(RuntimeException::new);
+        return recipeRepository.findById(id).orElseThrow(NotFoundException::new);
     }
 
     @Transactional
