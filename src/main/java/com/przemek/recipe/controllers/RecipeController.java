@@ -10,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
+
 @Slf4j
 @Controller
 public class RecipeController {
@@ -27,13 +29,13 @@ public class RecipeController {
     }
 
     @RequestMapping(value = "/recipe/new", method = RequestMethod.GET)
-    String getNewRecipe (Model model) {
+    String getNewRecipeForm (Model model) {
         model.addAttribute("recipe", new RecipeCommandObject());
         return "recipe/recipeform";
     }
 
     @RequestMapping(value = "recipe", method = RequestMethod.POST)
-    String saveOrUpdateRecipe(@ModelAttribute RecipeCommandObject recipeCommandObject) {
+    String saveOrUpdateRecipe(@Valid @ModelAttribute RecipeCommandObject recipeCommandObject) {
         RecipeCommandObject savedRecipeCommandObject = recipeService.saveRecipe(recipeCommandObject);
         return "redirect:/recipe/" + savedRecipeCommandObject.getId() + "/show";
     }

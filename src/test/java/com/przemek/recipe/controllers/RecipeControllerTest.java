@@ -86,6 +86,7 @@ public class RecipeControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .param("id", "")
                 .param("description", "some string")
+                .param("directions", "some tips :)")
         )
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/recipe/2/show"));
